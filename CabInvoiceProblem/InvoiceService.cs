@@ -1,4 +1,4 @@
-﻿// <copyright file="InvoiceGenerator.cs" company="PlaceholderCompany">
+﻿// <copyright file="InvoiceService.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -7,10 +7,16 @@ namespace CabInvoiceProblem
     /// <summary>
     /// This class used for manage the invoice operations.
     /// </summary>
-    public class InvoiceGenerator
+    public class InvoiceService
     {
         private static readonly double CostPerKM = 10;
         private static readonly double CostPerMinute = 1;
+        private RideRepository rideRepository;
+
+        public InvoiceService()
+        {
+            this.rideRepository = new RideRepository();
+        }
 
         /// <summary>
         /// This method used for calculate fare.
@@ -57,6 +63,26 @@ namespace CabInvoiceProblem
         public double CalculateFares(Ride[] rides)
         {
             return this.GiveFare(rides);
+        }
+
+        /// <summary>
+        /// This method used for adding new ride.
+        /// </summary>
+        /// <param name="userId">String user name.</param>
+        /// <param name="rides">Ride records.</param>
+        public void AddRides(string userId, Ride[] rides)
+        {
+            this.rideRepository.AddRides(userId, rides);
+        }
+
+        /// <summary>
+        /// This method used for get invoice summary basis of user id.
+        /// </summary>
+        /// <param name="userId">String user id.</param>
+        /// <returns>Invoice summary.</returns>
+        public InvoiceSummary GetInvoiceSummary(string userId)
+        {
+            return this.CalculateFare(this.rideRepository.GetRides(userId));
         }
     }
 }
