@@ -22,5 +22,21 @@ namespace CabInvoiceProblem
         {
             return (distance * CostPerKM) + (time * CostPerMinute);
         }
+
+        /// <summary>
+        /// This method used for calculate fare of multiple rides.
+        /// </summary>
+        /// <param name="rides">Multiple rides.</param>
+        /// <returns>Total fare.</returns>
+        public double CalculateFare(Ride[] rides)
+        {
+            double totalFare = 0;
+            foreach (var ride in rides)
+            {
+                totalFare += this.CalculateFare(ride.Distance, ride.Time);
+            }
+
+            return totalFare;
+        }
     }
 }

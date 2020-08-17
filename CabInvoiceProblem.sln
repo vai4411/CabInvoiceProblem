@@ -5,10 +5,11 @@ VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CabInvoiceProblem", "CabInvoiceProblem\CabInvoiceProblem.csproj", "{C954B405-E201-4609-95A0-6167C212FF19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CabInvoiceTest", "CabInvoiceTest\CabInvoiceTest.csproj", "{EDBDEE75-7EDC-4219-ABBB-56A4D1AC3433}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CabInvoiceTest", "CabInvoiceTest\CabInvoiceTest.csproj", "{EDBDEE75-7EDC-4219-ABBB-56A4D1AC3433}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{08617F1F-1378-4FFB-9256-9B8A60E2B265}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject

@@ -30,5 +30,17 @@ namespace CabInvoiceTest
             double fare = invoiceGenerator.CalculateFare(2, 5);
             Assert.AreEqual(25, fare);
         }
+
+        /// <summary>
+        /// Test case for calculate fare average for multiple rides.
+        /// </summary>
+        [Test]
+        public void GivenCabInvoice_WhenMultipleRidesPass_ThenReturnTotalFare()
+        {
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+            Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1), };
+            double fare = invoiceGenerator.CalculateFare(rides);
+            Assert.AreEqual(27, fare);
+        }
     }
 }
