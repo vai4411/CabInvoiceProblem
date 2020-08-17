@@ -27,19 +27,19 @@ namespace CabInvoiceProblem
         /// <param name="distance">Distance in double format.</param>
         /// <param name="time">Time in double format.</param>
         /// <returns>Total fare.</returns>
-        public double CalculateFare(double distance, int time, string category)
+        public double CalculateFare(double distance, int time, bool isPremium)
         {
-            if (category == "Normal")
-            {
-                costPerKM = 10.0;
-                costPerMinute = 1;
-                minCost = 5;
-            }
-            else
+            if (isPremium)
             {
                 costPerKM = 15.0;
                 costPerMinute = 2;
                 minCost = 20;
+            }
+            else
+            {
+                costPerKM = 10.0;
+                costPerMinute = 1;
+                minCost = 5;
             }
 
             double fare = (distance * costPerKM) + (time * costPerMinute);
@@ -51,12 +51,12 @@ namespace CabInvoiceProblem
         /// </summary>
         /// <param name="rides">Multiple rides.</param>
         /// <returns>Total fare.</returns>
-        public double GiveFare(Ride[] rides, string category)
+        public double GiveFare(Ride[] rides, bool isPremium)
         {
             double totalFare = 0;
             foreach (var ride in rides)
             {
-                totalFare += this.CalculateFare(ride.Distance, ride.Time, category);
+                totalFare += this.CalculateFare(ride.Distance, ride.Time, isPremium);
             }
 
             return totalFare;
@@ -67,9 +67,9 @@ namespace CabInvoiceProblem
         /// </summary>
         /// <param name="rides">Ride records.</param>
         /// <returns>Total invoice summary.</returns>
-        public InvoiceSummary CalculateFare(Ride[] rides, string category)
+        public InvoiceSummary CalculateFare(Ride[] rides, bool isPremium)
         {
-            return new InvoiceSummary(rides.Length, this.GiveFare(rides, category));
+            return new InvoiceSummary(rides.Length, this.GiveFare(rides, isPremium));
         }
 
         /// <summary>
@@ -77,9 +77,9 @@ namespace CabInvoiceProblem
         /// </summary>
         /// <param name="rides">Ride records.</param>
         /// <returns>Total fare.</returns>
-        public double CalculateFares(Ride[] rides, string category)
+        public double CalculateFares(Ride[] rides, bool isPremium)
         {
-            return this.GiveFare(rides, category);
+            return this.GiveFare(rides, isPremium);
         }
 
         /// <summary>
@@ -97,9 +97,9 @@ namespace CabInvoiceProblem
         /// </summary>
         /// <param name="userId">String user id.</param>
         /// <returns>Invoice summary.</returns>
-        public InvoiceSummary GetInvoiceSummary(string userId, string category)
+        public InvoiceSummary GetInvoiceSummary(string userId, bool isPremium)
         {
-            return this.CalculateFare(this.rideRepository.GetRides(userId), category);
+            return this.CalculateFare(this.rideRepository.GetRides(userId), isPremium);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace CabInvoiceTest
         public void GivenCabInvoiceNormalRide_WhenDistanceAndTimePass_ThenReturnFare()
         {
             InvoiceService invoiceGenerator = new InvoiceService();
-            double fare = invoiceGenerator.CalculateFare(2, 5, "Normal");
+            double fare = invoiceGenerator.CalculateFare(2, 5, false);
             Assert.AreEqual(25, fare);
         }
 
@@ -38,7 +38,7 @@ namespace CabInvoiceTest
         public void GivenCabInvoiceNormalRide_WhenMinimumDistanceAndTimePass_ThenReturnFare()
         {
             InvoiceService invoiceGenerator = new InvoiceService();
-            double fare = invoiceGenerator.CalculateFare(0.1, 1, "Normal");
+            double fare = invoiceGenerator.CalculateFare(0.1, 1, false);
             Assert.AreEqual(5, fare);
         }
 
@@ -50,7 +50,7 @@ namespace CabInvoiceTest
         {
             InvoiceService invoiceGenerator = new InvoiceService();
             Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1), };
-            double fare = invoiceGenerator.GiveFare(rides, "Normal");
+            double fare = invoiceGenerator.GiveFare(rides, false);
             Assert.AreEqual(30, fare);
         }
 
@@ -62,7 +62,7 @@ namespace CabInvoiceTest
         {
             InvoiceService invoiceGenerator = new InvoiceService();
             Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1), };
-            InvoiceSummary summary = invoiceGenerator.CalculateFare(rides, "Normal");
+            InvoiceSummary summary = invoiceGenerator.CalculateFare(rides, false);
             InvoiceSummary invoiceSummary = new InvoiceSummary(2, 30.0);
             Assert.AreEqual(invoiceSummary, summary);
         }
@@ -77,7 +77,7 @@ namespace CabInvoiceTest
             string userId = "a@b.com";
             Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1), };
             invoiceService.AddRides(userId, rides);
-            InvoiceSummary summary = invoiceService.GetInvoiceSummary(userId, "Normal");
+            InvoiceSummary summary = invoiceService.GetInvoiceSummary(userId, false);
             InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
             Assert.AreEqual(expectedInvoiceSummary, summary);
         }
@@ -89,7 +89,7 @@ namespace CabInvoiceTest
         public void GivenCabInvoicePremiumRide_WhenDistanceAndTimePass_ThenReturnFare()
         {
             InvoiceService invoiceGenerator = new InvoiceService();
-            double fare = invoiceGenerator.CalculateFare(2, 5, "Premium");
+            double fare = invoiceGenerator.CalculateFare(2, 5, true);
             Assert.AreEqual(40, fare);
         }
 
@@ -100,7 +100,7 @@ namespace CabInvoiceTest
         public void GivenCabInvoicePremiumRide_WhenMinimumDistanceAndTimePass_ThenReturnFare()
         {
             InvoiceService invoiceGenerator = new InvoiceService();
-            double fare = invoiceGenerator.CalculateFare(0.1, 1, "Premium");
+            double fare = invoiceGenerator.CalculateFare(0.1, 1, true);
             Assert.AreEqual(20, fare);
         }
 
@@ -112,7 +112,7 @@ namespace CabInvoiceTest
         {
             InvoiceService invoiceGenerator = new InvoiceService();
             Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1), };
-            double fare = invoiceGenerator.GiveFare(rides, "Premium");
+            double fare = invoiceGenerator.GiveFare(rides, true);
             Assert.AreEqual(60, fare);
         }
 
@@ -124,7 +124,7 @@ namespace CabInvoiceTest
         {
             InvoiceService invoiceGenerator = new InvoiceService();
             Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1), };
-            InvoiceSummary summary = invoiceGenerator.CalculateFare(rides, "Premium");
+            InvoiceSummary summary = invoiceGenerator.CalculateFare(rides, true);
             InvoiceSummary invoiceSummary = new InvoiceSummary(2, 60.0);
             Assert.AreEqual(invoiceSummary, summary);
         }
@@ -139,7 +139,7 @@ namespace CabInvoiceTest
             string userId = "a@b.com";
             Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1), };
             invoiceService.AddRides(userId, rides);
-            InvoiceSummary summary = invoiceService.GetInvoiceSummary(userId, "Premium");
+            InvoiceSummary summary = invoiceService.GetInvoiceSummary(userId, true);
             InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 60.0);
             Assert.AreEqual(expectedInvoiceSummary, summary);
         }
