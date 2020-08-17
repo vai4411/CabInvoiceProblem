@@ -28,7 +28,7 @@ namespace CabInvoiceProblem
         /// </summary>
         /// <param name="rides">Multiple rides.</param>
         /// <returns>Total fare.</returns>
-        public double CalculateFare(Ride[] rides)
+        public double GiveFare(Ride[] rides)
         {
             double totalFare = 0;
             foreach (var ride in rides)
@@ -37,6 +37,26 @@ namespace CabInvoiceProblem
             }
 
             return totalFare;
+        }
+
+        /// <summary>
+        /// This method used for get total invoice summary.
+        /// </summary>
+        /// <param name="rides">Ride records.</param>
+        /// <returns>Total invoice summary.</returns>
+        public InvoiceSummary CalculateFare(Ride[] rides)
+        {
+            return new InvoiceSummary(rides.Length, this.GiveFare(rides));
+        }
+
+        /// <summary>
+        /// This method used for calculate fares.
+        /// </summary>
+        /// <param name="rides">Ride records.</param>
+        /// <returns>Total fare.</returns>
+        public double CalculateFares(Ride[] rides)
+        {
+            return this.GiveFare(rides);
         }
     }
 }
