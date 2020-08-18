@@ -16,18 +16,20 @@ namespace CabInvoiceProblem
 
         public static double GetFare(Ride ride, RideCategory category)
         {
-            double cost;
             switch (category)
             {
                 case RideCategory.NORMAL:
-                    cost = (ride.Distance * 10) + (ride.Time * 1);
-                    return Math.Max(cost, 5);
+                    return GetFareByCategory(ride, 10, 1, 5);
                 case RideCategory.PREMIUM:
-                    cost = (ride.Distance * 15) + (ride.Time * 2);
-                    return Math.Max(cost, 20);
+                    return GetFareByCategory(ride, 15, 2, 20);
                 default:
                     return 0;
             }
+        }
+
+        public static double GetFareByCategory(Ride ride, int distance, int time, int minCost)
+        {
+            return Math.Max((ride.Distance * distance) + (ride.Time * time), minCost);
         }
     }
 }

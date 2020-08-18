@@ -4,7 +4,7 @@
 
 namespace CabInvoiceProblem
 {
-    using System;
+    using System.Text.RegularExpressions;
     using static CabInvoiceProblem.RideType;
 
     /// <summary>
@@ -13,6 +13,7 @@ namespace CabInvoiceProblem
     public class InvoiceService
     {
         private RideRepository rideRepository;
+        private Regex regex = new Regex("[a-z]{1,}[a-z0-9]{0,}@[a-z]{1,}.[a-z]{3,}");
 
         public InvoiceService()
         {
@@ -73,7 +74,14 @@ namespace CabInvoiceProblem
         /// <param name="rides">Ride records.</param>
         public void AddRides(string userId, Ride[] rides)
         {
-            this.rideRepository.AddRides(userId, rides);
+            if (this.regex.IsMatch(userId))
+            {
+                this.rideRepository.AddRides(userId, rides);
+            }
+            else
+            {
+                throw new CabInvoiceException("Please enter proper user id");
+            }
         }
 
         /// <summary>
