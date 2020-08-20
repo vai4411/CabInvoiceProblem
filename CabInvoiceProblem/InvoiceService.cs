@@ -12,9 +12,19 @@ namespace CabInvoiceProblem
     /// </summary>
     public class InvoiceService
     {
+        /// <summary>
+        /// This is ride repository object.
+        /// </summary>
         private RideRepository rideRepository;
+
+        /// <summary>
+        /// User id regex pattern.
+        /// </summary>
         private Regex regex = new Regex("[a-z]{1,}[a-z0-9]{0,}@[a-z]{1,}.[a-z]{3,}");
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvoiceService"/> class.
+        /// </summary>
         public InvoiceService()
         {
             this.rideRepository = new RideRepository();
@@ -35,6 +45,7 @@ namespace CabInvoiceProblem
         /// This method used for calculate fare of multiple rides.
         /// </summary>
         /// <param name="rides">Multiple rides.</param>
+        /// <param name="category">Ride category.</param>
         /// <returns>Total fare.</returns>
         public double GiveFare(Ride[] rides, RideCategory category)
         {
@@ -51,6 +62,7 @@ namespace CabInvoiceProblem
         /// This method used for get total invoice summary.
         /// </summary>
         /// <param name="rides">Ride records.</param>
+        /// <param name="category">Ride category.</param>
         /// <returns>Total invoice summary.</returns>
         public InvoiceSummary CalculateFare(Ride[] rides, RideCategory category)
         {
@@ -61,6 +73,7 @@ namespace CabInvoiceProblem
         /// This method used for calculate fares.
         /// </summary>
         /// <param name="rides">Ride records.</param>
+        /// <param name="category">Ride category.</param>
         /// <returns>Total fare.</returns>
         public double CalculateFares(Ride[] rides, RideCategory category)
         {
@@ -88,6 +101,7 @@ namespace CabInvoiceProblem
         /// This method used for get invoice summary basis of user id.
         /// </summary>
         /// <param name="userId">String user id.</param>
+        /// <param name="category">Ride category.</param>
         /// <returns>Invoice summary.</returns>
         public InvoiceSummary GetInvoiceSummary(string userId, RideCategory category)
         {

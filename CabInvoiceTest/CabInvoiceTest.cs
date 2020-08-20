@@ -13,12 +13,25 @@ namespace CabInvoiceTest
     /// </summary>
     public class CabInvoiceTest
     {
+        private InvoiceService invoiceGenerator;
+        private InvoiceSummary summary;
+        private InvoiceSummary expectedInvoiceSummary;
+        private InvoiceSummary invoiceSummary;
+        private string userId = "a@b.com";
+        private string wrongUserId = "a@b";
+        private double firstRideDistance = 2;
+        private int firstRideTime = 5;
+        private double secondRideDistance = 0.1;
+        private int secondRideTime = 1;
+        private Ride[] rides = { new Ride(2, 5), new Ride(0.1, 1), };
+
         /// <summary>
         /// This method is used for set up the initialization method.
         /// </summary>
         [SetUp]
         public void Setup()
         {
+            this.invoiceGenerator = new InvoiceService();
         }
 
         /// <summary>
@@ -27,10 +40,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoiceNormalRide_WhenDistanceAndTimePass_ThenReturnFare()
         {
-            InvoiceService invoiceGenerator = new InvoiceService();
-            double distance = 2;
-            int time = 5;
-            double fare = invoiceGenerator.CalculateFare(new Ride(distance, time), RideCategory.NORMAL);
+            double fare = this.invoiceGenerator.CalculateFare(new Ride(this.firstRideDistance, this.firstRideTime), RideCategory.NORMAL);
             Assert.AreEqual(25, fare);
         }
 
@@ -40,10 +50,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoiceNormalRide_WhenMinimumDistanceAndTimePass_ThenReturnFare()
         {
-            InvoiceService invoiceGenerator = new InvoiceService();
-            double distance = 0.1;
-            int time = 1;
-            double fare = invoiceGenerator.CalculateFare(new Ride(distance, time), RideCategory.NORMAL);
+            double fare = this.invoiceGenerator.CalculateFare(new Ride(this.secondRideDistance, this.secondRideTime), RideCategory.NORMAL);
             Assert.AreEqual(5, fare);
         }
 
@@ -53,13 +60,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoiceNormalRide_WhenMultipleRidesPass_ThenReturnTotalFare()
         {
-            InvoiceService invoiceGenerator = new InvoiceService();
-            double firstRideDistance = 2;
-            int firstRideTime = 5;
-            double secondRideDistance = 0.1;
-            int secondRideTime = 1;
-            Ride[] rides = { new Ride(firstRideDistance, firstRideTime), new Ride(secondRideDistance, secondRideTime), };
-            double fare = invoiceGenerator.GiveFare(rides, RideCategory.NORMAL);
+            double fare = this.invoiceGenerator.GiveFare(this.rides, RideCategory.NORMAL);
             Assert.AreEqual(30, fare);
         }
 
@@ -69,15 +70,9 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoiceNormalRide_WhenMultipleRidesPass_ThenReturnInvoiceSummary()
         {
-            InvoiceService invoiceGenerator = new InvoiceService();
-            double firstRideDistance = 2;
-            int firstRideTime = 5;
-            double secondRideDistance = 0.1;
-            int secondRideTime = 1;
-            Ride[] rides = { new Ride(firstRideDistance, firstRideTime), new Ride(secondRideDistance, secondRideTime), };
-            InvoiceSummary summary = invoiceGenerator.CalculateFare(rides, RideCategory.NORMAL);
-            InvoiceSummary invoiceSummary = new InvoiceSummary(2, 30.0);
-            Assert.AreEqual(invoiceSummary, summary);
+            this.summary = this.invoiceGenerator.CalculateFare(this.rides, RideCategory.NORMAL);
+            this.invoiceSummary = new InvoiceSummary(2, 30.0);
+            Assert.AreEqual(this.invoiceSummary, this.summary);
         }
 
         /// <summary>
@@ -86,17 +81,10 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoiceNormalRide_WhenUserIdAndRidesPass_ThenReturnInvoiceSummary()
         {
-            InvoiceService invoiceService = new InvoiceService();
-            string userId = "a@b.com";
-            double firstRideDistance = 2;
-            int firstRideTime = 5;
-            double secondRideDistance = 0.1;
-            int secondRideTime = 1;
-            Ride[] rides = { new Ride(firstRideDistance, firstRideTime), new Ride(secondRideDistance, secondRideTime), };
-            invoiceService.AddRides(userId, rides);
-            InvoiceSummary summary = invoiceService.GetInvoiceSummary(userId, RideCategory.NORMAL);
-            InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
-            Assert.AreEqual(expectedInvoiceSummary, summary);
+            this.invoiceGenerator.AddRides(this.userId, this.rides);
+            this.summary = this.invoiceGenerator.GetInvoiceSummary(this.userId, RideCategory.NORMAL);
+            this.expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
+            Assert.AreEqual(this.expectedInvoiceSummary, this.summary);
         }
 
         /// <summary>
@@ -105,10 +93,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoicePremiumRide_WhenDistanceAndTimePass_ThenReturnFare()
         {
-            InvoiceService invoiceGenerator = new InvoiceService();
-            double distance = 2;
-            int time = 5;
-            double fare = invoiceGenerator.CalculateFare(new Ride(distance, time), RideCategory.PREMIUM);
+            double fare = this.invoiceGenerator.CalculateFare(new Ride(this.firstRideDistance, this.firstRideTime), RideCategory.PREMIUM);
             Assert.AreEqual(40, fare);
         }
 
@@ -118,10 +103,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoicePremiumRide_WhenMinimumDistanceAndTimePass_ThenReturnFare()
         {
-            InvoiceService invoiceGenerator = new InvoiceService();
-            double distance = 0.1;
-            int time = 1;
-            double fare = invoiceGenerator.CalculateFare(new Ride(distance, time), RideCategory.PREMIUM);
+            double fare = this.invoiceGenerator.CalculateFare(new Ride(this.secondRideDistance, this.secondRideTime), RideCategory.PREMIUM);
             Assert.AreEqual(20, fare);
         }
 
@@ -131,13 +113,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoicePremiumRide_WhenMultipleRidesPass_ThenReturnTotalFare()
         {
-            InvoiceService invoiceGenerator = new InvoiceService();
-            double firstRideDistance = 2;
-            int firstRideTime = 5;
-            double secondRideDistance = 0.1;
-            int secondRideTime = 1;
-            Ride[] rides = { new Ride(firstRideDistance, firstRideTime), new Ride(secondRideDistance, secondRideTime), };
-            double fare = invoiceGenerator.GiveFare(rides, RideCategory.PREMIUM);
+            double fare = this.invoiceGenerator.GiveFare(this.rides, RideCategory.PREMIUM);
             Assert.AreEqual(60, fare);
         }
 
@@ -147,15 +123,9 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoicePremiumRide_WhenMultipleRidesPass_ThenReturnInvoiceSummary()
         {
-            InvoiceService invoiceGenerator = new InvoiceService();
-            double firstRideDistance = 2;
-            int firstRideTime = 5;
-            double secondRideDistance = 0.1;
-            int secondRideTime = 1;
-            Ride[] rides = { new Ride(firstRideDistance, firstRideTime), new Ride(secondRideDistance, secondRideTime), };
-            InvoiceSummary summary = invoiceGenerator.CalculateFare(rides, RideCategory.PREMIUM);
-            InvoiceSummary invoiceSummary = new InvoiceSummary(2, 60.0);
-            Assert.AreEqual(invoiceSummary, summary);
+            this.summary = this.invoiceGenerator.CalculateFare(this.rides, RideCategory.PREMIUM);
+            this.invoiceSummary = new InvoiceSummary(2, 60.0);
+            Assert.AreEqual(this.invoiceSummary, this.summary);
         }
 
         /// <summary>
@@ -164,17 +134,10 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoicePremiumRide_WhenUserIdAndRidesPass_ThenReturnInvoiceSummary()
         {
-            InvoiceService invoiceService = new InvoiceService();
-            string userId = "a@b.com";
-            double firstRideDistance = 2;
-            int firstRideTime = 5;
-            double secondRideDistance = 0.1;
-            int secondRideTime = 1;
-            Ride[] rides = { new Ride(firstRideDistance, firstRideTime), new Ride(secondRideDistance, secondRideTime), };
-            invoiceService.AddRides(userId, rides);
-            InvoiceSummary summary = invoiceService.GetInvoiceSummary(userId, RideCategory.PREMIUM);
-            InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 60.0);
-            Assert.AreEqual(expectedInvoiceSummary, summary);
+            this.invoiceGenerator.AddRides(this.userId, this.rides);
+            this.summary = this.invoiceGenerator.GetInvoiceSummary(this.userId, RideCategory.PREMIUM);
+            this.expectedInvoiceSummary = new InvoiceSummary(2, 60.0);
+            Assert.AreEqual(this.expectedInvoiceSummary, this.summary);
         }
 
         /// <summary>
@@ -183,14 +146,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoiceNormalRide_WhenInvalidUserIdPass_ThenThrowException()
         {
-            InvoiceService invoiceService = new InvoiceService();
-            string userId = "a@b";
-            double firstRideDistance = 2;
-            int firstRideTime = 5;
-            double secondRideDistance = 0.1;
-            int secondRideTime = 1;
-            Ride[] rides = { new Ride(firstRideDistance, firstRideTime), new Ride(secondRideDistance, secondRideTime), };
-            var result = Assert.Throws<CabInvoiceException>(() => invoiceService.AddRides(userId, rides));
+            var result = Assert.Throws<CabInvoiceException>(() => this.invoiceGenerator.AddRides(this.wrongUserId, this.rides));
             Assert.AreEqual("Please enter proper user id", result.Message);
         }
     }

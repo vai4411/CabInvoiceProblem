@@ -6,14 +6,26 @@ namespace CabInvoiceProblem
 {
     using System;
 
+    /// <summary>
+    /// This class use to give enum and fare value.
+    /// </summary>
     public class RideType
     {
+        /// <summary>
+        /// This enum used for ride category.
+        /// </summary>
         public enum RideCategory
         {
             PREMIUM,
             NORMAL,
         }
 
+        /// <summary>
+        /// This method used for calculate total fare.
+        /// </summary>
+        /// <param name="ride">Ride object.</param>
+        /// <param name="category">Enum category.</param>
+        /// <returns>Total fare.</returns>
         public static double GetFare(Ride ride, RideCategory category)
         {
             switch (category)
@@ -27,6 +39,14 @@ namespace CabInvoiceProblem
             }
         }
 
+        /// <summary>
+        /// This method used for get fare by category.
+        /// </summary>
+        /// <param name="ride">Ride object.</param>
+        /// <param name="distance">Integer distance.</param>
+        /// <param name="time">Integer time.</param>
+        /// <param name="minCost">Integer Minimum cost.</param>
+        /// <returns>Total fare.</returns>
         public static double GetFareByCategory(Ride ride, int distance, int time, int minCost)
         {
             return Math.Max((ride.Distance * distance) + (ride.Time * time), minCost);

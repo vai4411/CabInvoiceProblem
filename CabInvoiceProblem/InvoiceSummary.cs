@@ -9,10 +9,26 @@ namespace CabInvoiceProblem
     /// </summary>
     public class InvoiceSummary
     {
-        private readonly int numberOfRides;
-        private readonly double totalFare;
-        private readonly double avgFare;
+        /// <summary>
+        /// This variable used for storing number of rides.
+        /// </summary>
+        private int numberOfRides;
 
+        /// <summary>
+        /// This variable used for storing total fare.
+        /// </summary>
+        private double totalFare;
+
+        /// <summary>
+        /// This variable used for storing average fare.
+        /// </summary>
+        private double avgFare;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvoiceSummary"/> class.
+        /// </summary>
+        /// <param name="numberOfRides">Number of rides.</param>
+        /// <param name="totalFare">Total fare.</param>
         public InvoiceSummary(int numberOfRides, double totalFare)
         {
             this.numberOfRides = numberOfRides;
@@ -20,6 +36,11 @@ namespace CabInvoiceProblem
             this.avgFare = this.totalFare / this.numberOfRides;
         }
 
+        /// <summary>
+        /// This method is used for obejct eqaulity.
+        /// </summary>
+        /// <param name="obj">Invoice Summary object.</param>
+        /// <returns>Boolean result.</returns>
         public override bool Equals(object obj)
         {
             if (this == obj)
@@ -34,8 +55,8 @@ namespace CabInvoiceProblem
 
             InvoiceSummary that = (InvoiceSummary)obj;
             return this.numberOfRides == that.numberOfRides &&
-                    Equals(that.totalFare, this.totalFare) == true &&
-                    Equals(that.avgFare, this.avgFare) == true;
+                    Equals(this.totalFare, that.totalFare) == true &&
+                    Equals(this.avgFare, that.avgFare) == true;
         }
     }
 }
