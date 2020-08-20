@@ -11,13 +11,21 @@ namespace CabInvoiceProblem
     /// </summary>
     public class CabInvoiceException : Exception
     {
+        public ExceptionType exceptionType;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CabInvoiceException"/> class.
         /// </summary>
         /// <param name="message">String exception message.</param>
-        public CabInvoiceException(string message)
+        public CabInvoiceException(string message, ExceptionType exceptionType)
             : base(message)
         {
+            this.exceptionType = exceptionType;
+        }
+
+        public enum ExceptionType
+        {
+            INVALID_USER_NAME,
         }
     }
 }

@@ -60,7 +60,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoiceNormalRide_WhenMultipleRidesPass_ThenReturnTotalFare()
         {
-            double fare = this.invoiceGenerator.GiveFare(this.rides, RideCategory.NORMAL);
+            double fare = this.invoiceGenerator.TotalFare(this.rides, RideCategory.NORMAL);
             Assert.AreEqual(30, fare);
         }
 
@@ -113,7 +113,7 @@ namespace CabInvoiceTest
         [Test]
         public void GivenCabInvoicePremiumRide_WhenMultipleRidesPass_ThenReturnTotalFare()
         {
-            double fare = this.invoiceGenerator.GiveFare(this.rides, RideCategory.PREMIUM);
+            double fare = this.invoiceGenerator.TotalFare(this.rides, RideCategory.PREMIUM);
             Assert.AreEqual(60, fare);
         }
 
@@ -147,7 +147,20 @@ namespace CabInvoiceTest
         public void GivenCabInvoiceNormalRide_WhenInvalidUserIdPass_ThenThrowException()
         {
             var result = Assert.Throws<CabInvoiceException>(() => this.invoiceGenerator.AddRides(this.wrongUserId, this.rides));
-            Assert.AreEqual("Please enter proper user id", result.Message);
+            Assert.AreEqual(CabInvoiceException.ExceptionType.INVALID_USER_NAME, result.exceptionType);
+        }
+
+        /// <summary>
+        /// Test case for premium ride same user id want to ride again give invoice summary.
+        /// </summary>
+        [Test]
+        public void GivenCabInvoicePremiumRide_WhenSameUserWantToRideAgain_ThenReturnInvoiceSummary()
+        {
+            this.invoiceGenerator.AddRides(this.userId, this.rides);
+            this.invoiceGenerator.AddRides(this.userId, this.rides);
+            this.summary = this.invoiceGenerator.GetInvoiceSummary(this.userId, RideCategory.PREMIUM);
+            this.expectedInvoiceSummary = new InvoiceSummary(4, 120.0);
+            Assert.AreEqual(this.expectedInvoiceSummary, this.summary);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace CabInvoiceProblem
         /// <param name="ride">Ride object.</param>
         /// <param name="category">Enum category.</param>
         /// <returns>Total fare.</returns>
-        public static double GetFare(Ride ride, RideCategory category)
+        public static double GetFareOfRide(Ride ride, RideCategory category)
         {
             switch (category)
             {
@@ -43,13 +43,13 @@ namespace CabInvoiceProblem
         /// This method used for get fare by category.
         /// </summary>
         /// <param name="ride">Ride object.</param>
-        /// <param name="distance">Integer distance.</param>
-        /// <param name="time">Integer time.</param>
+        /// <param name="costPerKM">Cost per distance.</param>
+        /// <param name="costPerMinute">Cost per time.</param>
         /// <param name="minCost">Integer Minimum cost.</param>
         /// <returns>Total fare.</returns>
-        public static double GetFareByCategory(Ride ride, int distance, int time, int minCost)
+        public static double GetFareByCategory(Ride ride, int costPerKM, int costPerMinute, int minCost)
         {
-            return Math.Max((ride.Distance * distance) + (ride.Time * time), minCost);
+            return Math.Max((ride.Distance * costPerKM) + (ride.Time * costPerMinute), minCost);
         }
     }
 }

@@ -4,6 +4,7 @@
 
 namespace CabInvoiceProblem
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -26,7 +27,19 @@ namespace CabInvoiceProblem
         /// <param name="rides">Ride records.</param>
         public void AddRides(string userId, Ride[] rides)
         {
-            this.userRides.Add(userId, new List<Ride>(rides.ToList()));
+            Ride[] userRides = this.GetRides(userId);
+            if (userRides == null)
+            {
+                this.userRides.Add(userId, new List<Ride>(rides.ToList()));
+            }
+            else
+            {
+                var list = new List<Ride>();
+                list.AddRange(userRides);
+                list.AddRange(rides);
+                //this.userRides.Add(userId, list);
+                this.userRides[userId] = list;
+            }
         }
 
         /// <summary>
@@ -36,7 +49,15 @@ namespace CabInvoiceProblem
         /// <returns>Ride record.</returns>
         public Ride[] GetRides(string userId)
         {
-            return this.userRides[userId].ToArray();
+            try
+            {
+                return this.userRides[userId].ToArray();
+            }
+            catch (KeyNotFoundException)
+            {
+            }
+
+            return null;
         }
     }
 }

@@ -31,6 +31,17 @@ namespace CabInvoiceProblem
         }
 
         /// <summary>
+        /// This method used for get total invoice summary.
+        /// </summary>
+        /// <param name="rides">Ride records.</param>
+        /// <param name="category">Ride category.</param>
+        /// <returns>Total invoice summary.</returns>
+        public InvoiceSummary CalculateFare(Ride[] rides, RideCategory category)
+        {
+            return new InvoiceSummary(rides.Length, this.TotalFare(rides, category));
+        }
+
+        /// <summary>
         /// This method used for calculate fare.
         /// </summary>
         /// <param name="ride">Ride information.</param>
@@ -38,7 +49,7 @@ namespace CabInvoiceProblem
         /// <returns>Total fare.</returns>
         public double CalculateFare(Ride ride, RideCategory category)
         {
-            return GetFare(ride, category);
+            return GetFareOfRide(ride, category);
         }
 
         /// <summary>
@@ -47,7 +58,7 @@ namespace CabInvoiceProblem
         /// <param name="rides">Multiple rides.</param>
         /// <param name="category">Ride category.</param>
         /// <returns>Total fare.</returns>
-        public double GiveFare(Ride[] rides, RideCategory category)
+        public double TotalFare(Ride[] rides, RideCategory category)
         {
             double totalFare = 0;
             foreach (var ride in rides)
@@ -56,28 +67,6 @@ namespace CabInvoiceProblem
             }
 
             return totalFare;
-        }
-
-        /// <summary>
-        /// This method used for get total invoice summary.
-        /// </summary>
-        /// <param name="rides">Ride records.</param>
-        /// <param name="category">Ride category.</param>
-        /// <returns>Total invoice summary.</returns>
-        public InvoiceSummary CalculateFare(Ride[] rides, RideCategory category)
-        {
-            return new InvoiceSummary(rides.Length, this.GiveFare(rides, category));
-        }
-
-        /// <summary>
-        /// This method used for calculate fares.
-        /// </summary>
-        /// <param name="rides">Ride records.</param>
-        /// <param name="category">Ride category.</param>
-        /// <returns>Total fare.</returns>
-        public double CalculateFares(Ride[] rides, RideCategory category)
-        {
-            return this.GiveFare(rides, category);
         }
 
         /// <summary>
@@ -93,7 +82,7 @@ namespace CabInvoiceProblem
             }
             else
             {
-                throw new CabInvoiceException("Please enter proper user id");
+                throw new CabInvoiceException("Please enter proper user id", CabInvoiceException.ExceptionType.INVALID_USER_NAME);
             }
         }
 
